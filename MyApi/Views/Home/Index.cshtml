@@ -1,0 +1,35 @@
+@model List<MyApi.Models.Product>
+
+@section Styles {
+    
+}
+
+<h2>Product List</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>CreatedAt</th>
+                <th>ModifiedAt</th>
+                <th>DeletedAt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Value</td>
+                    <td>@product.CreatedAt</td>
+                    <td>@product.ModifiedAt</td>
+                    <td>@product.DeletedAt</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
