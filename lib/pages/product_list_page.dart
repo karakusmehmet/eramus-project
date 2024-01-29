@@ -51,7 +51,7 @@ class _ProductListPageState extends State<ProductListPage> {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('\$${product.value.toString()}'),
+                Text('Value:  ${product.value.toString()}'),
                 Text('Created At: ${product.createdAt.toLocal()}'), // Ekledik
               ],
             ),
