@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_api_app/pages/product_edit_page.dart';
+import 'package:my_api_app/Models/product.dart';
 
 class ProductListPage extends StatefulWidget {
   @override
@@ -46,53 +47,30 @@ class _ProductListPageState extends State<ProductListPage> {
         itemBuilder: (context, index) {
           final product = products[index];
           return ListTile(
-            leading: Text('id:  ${product.id.toString()}'),
+            leading: Text('id: ${product.id.toString()}'),
             title: Text('Name: ${product.name}'),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Value:  ${product.value.toString()}'),
-                Text('Created At: ${product.createdAt.toLocal()}'), // Ekledik
+                Text('Value: ${product.value.toString()}'),
+                Text('Created At: ${product.createdAt.toLocal()}'),
               ],
             ),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ProductEditPage(productId: product.id),
+                  builder: (context) => ProductEditPage(product: product),
                 ),
               ).then((value) {
-                // Ekran geri döndüğünde güncelleme işlemlerini burada ele alabilirsiniz
                 if (value == true) {
-                  fetchProducts(); // Ürünleri tekrar çek
+                  fetchProducts();
                 }
               });
             },
           );
         },
       ),
-    );
-  }
-}
-
-class Product {
-  final int id;
-  final String name;
-  final int value;
-  final DateTime createdAt;
-
-  Product(
-      {required this.id,
-      required this.name,
-      required this.value,
-      required this.createdAt});
-
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      id: json['id'],
-      name: json['name'],
-      value: json['value'],
-      createdAt: DateTime.parse(json['createdAt']),
     );
   }
 }

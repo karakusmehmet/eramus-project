@@ -1,13 +1,12 @@
-// lib/pages/product_edit_page.dart
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_api_app/Models/product.dart';
 
 class ProductEditPage extends StatefulWidget {
-  final int productId;
+  final Product product;
 
-  const ProductEditPage({super.key, required this.productId});
+  const ProductEditPage({Key? key, required this.product}) : super(key: key);
 
   @override
   _ProductEditPageState createState() => _ProductEditPageState();
@@ -15,31 +14,19 @@ class ProductEditPage extends StatefulWidget {
 
 class _ProductEditPageState extends State<ProductEditPage> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController valueController =
-      TextEditingController(); // Yeni eklenen controller
+  TextEditingController valueController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    fetchProductDetails();
-  }
-
-  Future<void> fetchProductDetails() async {
-    final response = await http.get(
-        Uri.parse('http://localhost:5203/api/products/${widget.productId}'));
-    if (response.statusCode == 200) {
-      final product = Product.fromJson(json.decode(response.body));
-      nameController.text = product.name;
-      valueController.text = product.value.toString(); // Yeni eklenen satır
-    } else {
-      throw Exception('Failed to load product details');
-    }
+    nameController.text = widget.product.name;
+    valueController.text = widget.product.value.toString();
   }
 
   Future<void> updateProduct() async {
     try {
       final response = await http.put(
-        Uri.parse('http://localhost:5203/api/products/${widget.productId}'),
+        Uri.parse('http://localhost:5203/api/products/${widget.product.id}'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'name': nameController.text,
@@ -48,11 +35,8 @@ class _ProductEditPageState extends State<ProductEditPage> {
       );
 
       if (response.statusCode == 200) {
-        // Güncelleme başarılı
-        // TODO: Geri dönüş ekranına yönlendirme
         Navigator.pop(context, true);
       } else {
-        // Güncelleme başarısız
         throw Exception(
             'Failed to update product. Status Code: ${response.statusCode}, Response Body: ${response.body}');
       }
@@ -91,22 +75,6 @@ class _ProductEditPageState extends State<ProductEditPage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class Product {
-  final int id;
-  final String name;
-  final int value;
-
-  Product({required this.id, required this.name, required this.value});
-
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      id: json['id'],
-      name: json['name'],
-      value: json['value'],
     );
   }
 }
