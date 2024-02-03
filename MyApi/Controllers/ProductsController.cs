@@ -32,18 +32,16 @@ namespace MyApi.Controllers
 
             if (existingProduct == null)
             {
-                return NotFound(); // Ürün bulunamazsa 404 Not Found döndür
+                return NotFound(); //If the product is not found, return 404 Not Found
             }
 
-            // Güncelleme işlemleri
+            // Update processes
             existingProduct.Name = updatedProduct.Name;
             existingProduct.Value = updatedProduct.Value;
 
-            // Diğer özellikleri de güncelleyebilirsiniz
-
             _dbContext.SaveChanges();
 
-            return Ok(existingProduct); // Güncellenmiş ürünü döndür
+            return Ok(existingProduct); // Return the updated product
         }
     }
 }
