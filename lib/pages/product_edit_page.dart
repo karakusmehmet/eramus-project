@@ -37,8 +37,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
       if (response.statusCode == 200) {
         Navigator.pop(context, true);
       } else {
-        throw Exception(
-            'Failed to update product. Status Code: ${response.statusCode}, Response Body: ${response.body}');
+        throw Exception('Failed to update product.');
       }
     } catch (error) {
       print('Update Product Error: $error');
