@@ -38,6 +38,7 @@ namespace MyApi.Controllers
             // Update processes
             existingProduct.Name = updatedProduct.Name;
             existingProduct.Value = updatedProduct.Value;
+            existingProduct.ModifiedAt = System.DateTime.UtcNow;
 
             _dbContext.SaveChanges();
 
